@@ -1,0 +1,76 @@
+/* F O R M ****************************/
+.b-form {
+}
+.b-form__2cols {
+	overflow: hidden;
+	zoom: 1;
+}
+.b-form__label {
+	width: 340px;
+	display: inline-block;
+/*	display: block;
+	float: left;*/
+	margin-left: 5px;
+}
+.b-form__2cols .sublabel {
+	width: auto;
+}
+.b-form__field {
+	width: 10;
+}
+.b-form .b-form__input {
+	vertical-align: top;
+}
+.b-form input[type="radio"] {
+	margin-top: 1px;
+	vertical-align: top;
+}
+.b-form input[type="checkbox"] {
+	vertical-align: top;
+}
+.b-form input:disabled, .b-form textarea:disabled, .b-form select:disabled {
+	background: #ECECEC;
+}
+
+.b-form__fieldset {
+	display: inline;
+	padding: 10px 10px 5px 10px;
+	margin-left: -5px;
+	border: 1px solid #DDD;
+	border-radius: 5px;
+}
+.b-form__fieldset legend {
+	font-weight: bold;
+	color: #BBB;
+}
+
+.b-form__fieldset .b-form__label {
+	margin-left: 0px;
+}
+.b-form__fieldset .b-form__fieldset .b-form__label {
+	width: 330px;
+}
+
+.b-info {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-left: 3px;
+	background: url('/manager/media/style/MODxCarbon/images/icons/information.png') no-repeat center center;
+}
+.b-info__text {
+	position: absolute;
+	display: none;
+	padding: 5px 5px 5px 5px;
+	margin: -4px 0 0 -4px;
+	max-width: 400px;
+	text-indent: 20px;
+	background: #F7F7F7 url('/manager/media/style/MODxCarbon/images/icons/information.png') no-repeat 5px 5px;
+	border: 1px solid #C6CBD1;
+	border-radius: 5px;
+	white-space: normal;
+	box-shadow: 0 3px 5px rgba(0,0,0,.5);
+}
+.b-info:hover .b-info__text {
+	display: block;
+}

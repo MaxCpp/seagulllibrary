@@ -1,0 +1,171 @@
+/* Table Style MODxCarbon*/
+
+.b-table {
+	width: 100%;
+	border-spacing: 0;
+}
+.b-table thead {
+	margin: 5px;
+}
+.b-table thead td {
+	font-weight: bold;
+	color: #F0F0F0;
+	padding: 4px 5px;
+	background: url('/manager/media/style/MODxCarbon/images/misc/longbarbg.png') repeat-x center center #7B8898;
+	border-top: 1px solid #8B96A0;
+	border-bottom: 1px solid #8B97A5;
+}
+.b-table tbody {
+	margin: 5px;
+}
+.b-table tbody td {
+	padding: 3px 5px;
+	border-bottom: 1px solid #D8D8D8;
+}
+.b-table tbody tr {
+	background: #F0F0F0;
+}
+.b-table tbody tr:hover {
+	background: #F9F9F9;
+}
+
+.b-table .b-row_green {
+	background: #CFC;
+}
+.b-table .b-row_yellow {
+	background: #FFC;
+}
+.b-table .b-row_red {
+	background: #FFD5D5;
+}
+
+.b-table .b-table__row_disable {
+	color: #AAA;
+	background: #E3E3E3;
+}
+
+.b-table .b-row_unviewed {
+	font-weight: bold;
+}
+.b-table .nowrap {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+}
+.b-table .row-edit {
+	cursor: pointer;
+}
+.b-table .col-edit {
+	cursor: pointer;
+	vertical-align: top;
+}
+
+.b-table .row-selected {
+	background: #FF9;
+	cursor: pointer;
+}
+.b-table tbody tr.row-selected:hover {
+	background: #FFC;
+}
+.b-published, .b-unpublished {
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	background: url('images/eye.png') no-repeat center 0;
+}
+.b-unpublished {
+	background-position: center -16px;
+}
+.b-false, .b-true, .icon-plus, .icon-minus, .b-email, .b-email_open, .b-email_sent {
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	background: url('images/icon-exclamation.png') no-repeat center 0;
+}
+.b-true {
+	background: url('images/bg-ok.png') no-repeat center 0;
+}
+.icon-plus {
+	background: url('images/icon-plus.png') no-repeat center 0;
+}
+.icon-minus {
+	background: url('images/icon-minus.png') no-repeat center 0;
+}
+.b-email, .b-email_open, .b-email_sent {
+	background: url('images/email_icons.png') no-repeat center 0;
+}
+.b-email_open {
+	background-position: -16px center;
+}
+.b-email_sent {
+	background-position: -32px center;
+}
+
+#tooltip-nowrap {
+	position: absolute;
+	padding: 5px;
+	margin: -5px 0 0 -5px;
+	background: #F7F7F7;
+/*	border: 1px solid #9DA7B3;*/
+	border-radius: 5px;
+	white-space: normal;
+	box-shadow: 0 3px 5px rgba(0,0,0,.5);
+}
+
+.b-paginator {
+/*	overflow: hidden;*/
+	float: right;
+	margin: 3px 0;
+}
+.b-paginator .b-paginator-link {
+	color: #222c36;
+	font-weight: bold;
+	font-size: 12px;
+	background: #c7ced2 url(/manager/media/style/MODxCarbon/images/misc/button-gradient.png) repeat-x top left;
+	padding: 4px 6px;
+	margin: 0 0 0 5px;
+	white-space: nowrap;
+	vertical-align: top;
+	text-decoration: none;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-text-shadow: 1px 1px 0 #fff;
+	-moz-text-shadow: 0 1px 1px #fff;
+	text-shadow: 0 1px 1px #fff;
+	box-shadow: 0 1px 1.5px rgba(0,0,0,.6);
+	border-width: 1px;
+	border-style: solid;
+	border-color: #C5C5C5 #B5B5B5 #BBB #D3D3D3;
+	outline: none;
+}
+.b-paginator .b-paginator-link:hover {
+	border-color: #C5C5C5 #B5B5B5 #A0A0A0 #B5B5B5;
+	box-shadow: 0 0px 0px rgba(0,0,0,.5);
+}
+.b-paginator .b-paginator-link_active, .b-paginator .b-paginator-link_active:hover {
+	color: #FFF;
+	background-color: #c7ced2;
+	background-position: left 10%;
+	box-shadow: inset 0 1px 2px rgba(0,0,0,.3);
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	cursor: default;
+}
+.b-paginator .b-paginator-link_disabled, .b-paginator .b-paginator-link_disabled:hover {
+	color: #999;
+	background-color: #EEE;
+	background-position: left 10%;
+	box-shadow: 0 0px 0px rgba(0,0,0,.5);
+	cursor: default;
+}
+.b-paginator-loading {
+	display: inline-block;
+	height: 22px;
+	line-height: 22px;
+	padding: 0 10px 0 24px;
+	margin: 0 3px 0 0;
+	border: 1px solid #DDD;
+	border-radius: 14px;
+	background: #FFF url('images/loading.gif') no-repeat 5px center;
+}

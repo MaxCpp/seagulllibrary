@@ -1,0 +1,33 @@
+	<a id="create-variable" style="margin:7px 0 0 10px; float:right" href="#" onclick="return false;">Добавить переменную</a>
+	<div id="dialog-form" title="Создать переменную" style="display:none">
+		<form id="f-addvariable">
+		<fieldset>
+			<p><label for="var-title" style="width:100px">Title</label>
+			<input type="text" name="title" id="var-title" class="text ui-widget-content ui-corner-all" /></p>
+
+			<p><label for="var-name" style="width:100px">Name</label>
+			<input type="text" name="name" id="var-name" class="text ui-widget-content ui-corner-all" /></p>
+
+			<p><label for="var-type" style="width:100px">Type</label>
+			<select id="var-type" name="type" class="text ui-widget-content ui-corner-all">
+				<option value="T">Text</option>
+				<option value="TA">Textarea</option>
+				<option value="C">Checkbox</option>
+				<option value="R">Radio</option>
+				<option value="S">Select</option>
+				<option value="P">Password</option>
+				<option value="F">File</option>
+			</select></p>
+
+			<p><label for="var-namemodule" style="width:100px">Name module</label>
+			<input type="text" name="namemodule" id="var-namemodule" value="[+nameModule+]" class="text ui-widget-content ui-corner-all" /></p>
+
+			<p><label for="var-fieldset" style="width:100px">Fieldset</label>
+			<input type="text" name="fieldset" id="var-fieldset" value="NULL" class="text ui-widget-content ui-corner-all" /></p>
+
+			<p><label for="var-value">Value</label>
+			<span id="var-tooltip" style="display:none">Example:<br/>Title option 1|Name_variable_1|0<br/>Title option 2|Name_variable_2|1<br/>Title option 3|Name_variable_3|0<br/></span>
+			<textarea name="value" id="var-value" class="text ui-widget-content ui-corner-all" style="width:100%; height:140px"></textarea></p>
+		</fieldset>
+		</form>
+	</div>

@@ -1,0 +1,10 @@
+.b-ver {
+	float: right;
+	color: #AAA;
+}
+.b-link {
+	margin: 2px 10px;
+	text-decoration: underline;
+	color: #00F;
+	cursor: pointer;
+}

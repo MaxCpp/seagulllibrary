@@ -1,0 +1,49 @@
+<script type="text/javascript">
+	function postForm(action, id, param){
+		if (action === undefined) {
+			document.location.href = document.location.href;
+		}
+		else {
+			document.module.cmd.value=action;
+			if (param != undefined) document.module.param.value=param;
+			if (id != undefined) document.module.itemID.value=id;
+			document.module.submit();
+		}
+	}
+	function postFormModule(obj, action, id, param){
+		document.module.action = obj.href;
+		if (action === undefined) {
+			document.location.href = obj.href;
+		}
+		else {
+			document.module.cmd.value=action;
+			if (param != undefined) document.module.param.value=param;
+			if (id != undefined) document.module.itemID.value=id;
+			document.module.submit();
+		}
+	}
+	function delForm(action, id){
+		if (confirm("Ты уверен что хочешь удалить?"))
+			postForm(action, id);
+	}
+	function ajaxDel(action, id){
+		if (confirm("Ты уверен что хочешь удалить?")) {
+			$.ajax({ type:'POST', url:ajaxurl, timeout:5000, dataType:'json',
+				data: {cmd: action, itemID: id},
+				success: function(data){
+					msg.showAjax(data);
+				},
+				error: function(data){
+					msg.show('Ошибка при отправке запроса', 'error');
+				}
+			});
+		}
+	}
+</script>
+<script type="text/javascript" src="../assets/modules/seagulllibrary/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="../assets/modules/seagulllibrary/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script type="text/javascript" src="../assets/modules/seagulllibrary/js/jquery.form-3.39.min.js"></script>
+<script type="text/javascript" src="../assets/modules/seagulllibrary/js/jquery.timers.js"></script>
+<script type="text/javascript" src="../assets/modules/seagulllibrary/js/jquery.message.js"></script>
+<script type="text/javascript" src="../assets/modules/seagulllibrary/js/jquery.config.js"></script>
+<script type="text/javascript" src="../assets/modules/seagulllibrary/js/jquery.edittable.js"></script>

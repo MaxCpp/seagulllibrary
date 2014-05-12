@@ -1,0 +1,88 @@
+
+/*	Block Tabs */
+
+.b-tabs {
+	margin: 0 10px 30px;
+}
+ul.b-tabs__buttons {
+	height: 27px;
+	padding: 0;
+	margin: 0;
+	line-height: 25px;
+	list-style: none;
+	border-bottom: 1px solid #DDD;
+}
+.b-tabs__buttons li {
+	position: relative;
+	font-weight: bold;
+	float: left;
+	display: inline;
+	margin: 0 1px -1px 0;
+	padding: 0 13px 1px;
+	color: #999;
+	cursor: pointer;
+	background: #EEE;
+	border: 1px solid #E2E2E2;
+/*	border-bottom: 0px solid #F9F9F9;*/
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+.b-tabs__buttons li:hover,
+.vertical .b-tabs__buttons li:hover {
+	color: #AAA;
+	background: #FFFFFF;
+	border: 1px solid #D4D4D4;
+	border-bottom: 0px solid #D4D4D4;
+}
+.b-tabs__buttons li.b-tabs__button_current {
+	color: #444;
+	background: #F9F9F9;
+	margin: 0 1px -1px 0;
+	padding: 0 13px 1px;
+	border: 1px solid #D4D4D4;
+	border-bottom: 1px solid #F9F9F9;
+}
+.b-tabs__page {
+	display: none;
+	overflow: hidden;
+	padding: 12px;
+	background: #F9F9F9;
+	border: 1px solid #D4D4D4;
+	border-width: 0 1px 1px;
+}
+.b-tabs__page.b-tabs__page_visible {
+	display: block;
+}
+
+.b-tabs.vertical {
+	width: 440px;
+	border-left: 160px solid #FFF;
+}
+.vertical .b-tabs__buttons {
+	width: 160px;
+	float: left;
+	display: inline;
+	margin: 0 0 0 -160px;
+}
+.vertical .b-tabs__buttons li {
+	padding: 0 13px;
+	margin: 0 0 1px;
+	border: 1px solid #E4E4E4;
+	border-right: 1px solid #F9F9F9;
+	width: 132px;
+	height: 25px;
+}
+.vertical .b-tabs__buttons li:hover {
+	width: 131px;
+}
+.vertical .b-tabs__buttons li.b-tabs__button_current {
+	width: 133px;
+	color: #444;
+	background: #EFEFEF;
+	border: 1px solid #D4D4D4;
+	border-right: 1px solid #EFEFEF;
+	margin-right: -1px;
+}
+.vertical .b-tabs__page {
+	border-width: 1px;
+}
