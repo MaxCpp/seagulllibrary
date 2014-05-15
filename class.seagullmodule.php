@@ -5,7 +5,7 @@
 	Update 0.0.2: 2012-11-22
 */
 
-define('SITE_ROOT', $_SERVER['DOCUMENT_ROOT']);
+define('SITE_ROOT', MODX_BASE_PATH);
 
 require_once(SITE_ROOT.'/assets/modules/seagulllibrary/class.edittable.php');
 require_once(SITE_ROOT.'/assets/modules/seagulllibrary/class.config.php');
