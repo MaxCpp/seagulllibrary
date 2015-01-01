@@ -41,7 +41,9 @@ class CConfig {
 
 	function __construct() { //---------------------------------------
 		$args = func_get_args();
-		$this->msg = $args[0];
+		if (isset($args[0])) {
+			$this->msg = $args[0];
+		}
 
 // Уровень вывода ошибок PHP
 		$this->php_error_reporting = E_ALL & ~E_NOTICE;
@@ -300,6 +302,12 @@ class CConfig {
 		$title = isset($title) ? mysql_real_escape_string($title) : NULL;
 		$info = isset($info) ? mysql_real_escape_string($info) : NULL;
 
+		if (isset($module)) {
+			if (!$this->existModule($module)) {
+				$this->addModule($module);
+			}
+		}
+
 		if (is_numeric($name)) {
 			$r = run_sql('UPDATE '.$this->tables['config']->table.' SET `value`='.$value.' WHERE `id`='.$name);
 			if ($r)
@@ -347,6 +355,11 @@ class CConfig {
 		return retr_sql('SELECT `id` FROM '.$this->tables['config']->table.' WHERE `type`=\'FIELDSET\' AND `module`=\''.$module.'\' AND `name`=\''.$fieldset.'\'');
 	}
 
+	function existModule($name) { //---------------------------------------
+		$r = retr_sql('SELECT count(`id`) FROM '.$this->tables['config']->table.' WHERE `module`=\''.$name.'\'');
+		return $r;
+	}
+
 	function addModule($name) { //---------------------------------------
 
 		$arr = retr_sql('DESCRIBE '.$this->tables['config']->table.' `module`');
@@ -361,6 +374,57 @@ class CConfig {
 		}
 
 		return 0;
+	}
+
+	function addVariable($data) { //---------------------------------------
+
+		if (($data['type']=='S' or $data['type']=='R') and strpos($data['value'], '|')) {
+
+			$arr = explode("\n", $data['value']);
+			$data['value'] = array();
+			foreach ($arr as $option) {
+				$arr_option = explode('|', $option);
+
+				$item['title'] = $arr_option[0];
+				$item['name'] = $arr_option[1];
+				$item['val'] = $arr_option[2];
+				$data['value'][] = $item;
+			}
+//				ea($data['value']);
+		}
+
+		if (empty($data['title'])) {
+			$this->msg->setHighlight('title');
+			$this->msg->setError('Введите title');
+		}
+
+		if (empty($data['name'])) {
+			$this->msg->setHighlight('name');
+			$this->msg->setError('Введите name');
+		}
+
+		if (empty($data['value'])) {
+			$this->msg->setHighlight('value');
+			$this->msg->setError('Введите value');
+		}
+
+		if (empty($data['namemodule'])) {
+			$this->msg->setHighlight('namemodule');
+			$this->msg->setError('Введите namemodule');
+		}
+
+		if (empty($data['fieldset'])) {
+			$this->msg->setHighlight('fieldset');
+			$this->msg->setError('Введите fieldset');
+		}
+
+		if (!$this->msg->keep) {
+			switch ($this->setVariable($data['name'], $data['value'], $data['namemodule'], $data['fieldset'], $data['type'], $data['title'])) {
+				case 1: $this->msg->setOk('Переменная добавлена'); break;
+				case 2: $this->msg->setInfo('Переменная обновлена'); break;
+				case 0: $this->msg->setError('Ошибка при сохранении'); break;
+			}
+		}
 	}
 
 	function install() { //---------------------------------------
