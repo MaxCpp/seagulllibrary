@@ -1,5 +1,6 @@
 <?php
-/*	Seagull Library 0.0.8
+/*	Seagull Library 0.0.9
+	Update 0.0.9: 2015-11-20
 	Update 0.0.8: 2013-10-01
 	Update 0.0.7: 2013-10-01
 	Update 0.0.6: 2013-10-01
@@ -85,7 +86,7 @@ function sql2array ($sql_query, $key='id', $value=NULL) { //--------------------
 
 	$query_result = run_sql($sql_query);
 	$query_table = array();
-	
+
 	if ($query_result and mysql_numrows($query_result) > 0) {
 		if (isset($value)) {
 			while ($query_row = mysql_fetch_array($query_result, MYSQL_ASSOC)) {
@@ -309,16 +310,18 @@ function requireFiles($dir, $ext='php') { //------------------------------------
 
 //	Очищает директорию от файлов и папок
 function cleardir($directory, $del=CLEAR_ALL) {
-	$dir = opendir($directory);
-	while(($file = readdir($dir))) {
-		if ( is_file($directory.'/'.$file) and $del!=CLEAR_DIR) {
-			unlink($directory.'/'.$file);
+	if (file_exists($directory)) {
+		$dir = opendir($directory);
+		while(($file = readdir($dir))) {
+			if ( is_file($directory.'/'.$file) and $del!=CLEAR_DIR) {
+				unlink($directory.'/'.$file);
+			}
+			else if ((is_dir($directory.'/'.$file) && ($file != '.') && ($file != '..')) and $del!=CLEAR_FILES) {
+				removedir($directory.'/'.$file);
+			}
 		}
-		else if ((is_dir($directory.'/'.$file) && ($file != '.') && ($file != '..')) and $del!=CLEAR_FILES) {
-			removedir($directory.'/'.$file);
-		}
+		closedir($dir);
 	}
-	closedir ($dir);
 	return TRUE;
 }
 
@@ -417,13 +420,13 @@ function arr2tableHTML($arr) { //--------------------------------------------
 }
 
 function checkCharset($str) { //--------------------------------------------
-	$tab = array('UTF-8', 'ASCII', 'Windows-1252', 'koir-8'); 
-//	$tab = array("UTF-8", "ASCII", "Windows-1252", "ISO-8859-15", "ISO-8859-1", "ISO-8859-6", "CP1256", "koir-8"); 
-	$chain = ''; 
-	foreach ($tab as $i) { 
-		foreach ($tab as $j) { 
-			$chain .= "$i->$j:".iconv($i, $j, $str).'<br>'; 
-		} 
+	$tab = array('UTF-8', 'ASCII', 'Windows-1252', 'koir-8');
+//	$tab = array("UTF-8", "ASCII", "Windows-1252", "ISO-8859-15", "ISO-8859-1", "ISO-8859-6", "CP1256", "koir-8");
+	$chain = '';
+	foreach ($tab as $i) {
+		foreach ($tab as $j) {
+			$chain .= "$i->$j:".iconv($i, $j, $str).'<br>';
+		}
 	}
 	return $chain;
 }
@@ -585,60 +588,60 @@ function translit($str) { //--------------------------------------------
 	$str = strtr($str, $BiLetters );
 	return $str;
 /*
-    $converter = array(  
-        'а' => 'a',   'б' => 'b',   'в' => 'v',  
-        'г' => 'g',   'д' => 'd',   'е' => 'e',  
-        'ё' => 'e',   'ж' => 'zh',  'з' => 'z',  
-        'и' => 'i',   'й' => 'y',   'к' => 'k',  
-        'л' => 'l',   'м' => 'm',   'н' => 'n',  
-        'о' => 'o',   'п' => 'p',   'р' => 'r',  
-        'с' => 's',   'т' => 't',   'у' => 'u',  
-        'ф' => 'f',   'х' => 'h',   'ц' => 'c',  
-        'ч' => 'ch',  'ш' => 'sh',  'щ' => 'sch',  
-        'ь' => "'",  'ы' => 'y',   'ъ' => "'",  
-        'э' => 'e',   'ю' => 'yu',  'я' => 'ya',  
-  
-        'А' => 'A',   'Б' => 'B',   'В' => 'V',  
-        'Г' => 'G',   'Д' => 'D',   'Е' => 'E',  
-        'Ё' => 'E',   'Ж' => 'Zh',  'З' => 'Z',  
-        'И' => 'I',   'Й' => 'Y',   'К' => 'K',  
-        'Л' => 'L',   'М' => 'M',   'Н' => 'N',  
-        'О' => 'O',   'П' => 'P',   'Р' => 'R',  
-        'С' => 'S',   'Т' => 'T',   'У' => 'U',  
-        'Ф' => 'F',   'Х' => 'H',   'Ц' => 'C',  
-        'Ч' => 'Ch',  'Ш' => 'Sh',  'Щ' => 'Sch',  
-        'Ь' => "'",  'Ы' => 'Y',   'Ъ' => "'",  
-        'Э' => 'E',   'Ю' => 'Yu',  'Я' => 'Ya',  
-    );  
+    $converter = array(
+        'а' => 'a',   'б' => 'b',   'в' => 'v',
+        'г' => 'g',   'д' => 'd',   'е' => 'e',
+        'ё' => 'e',   'ж' => 'zh',  'з' => 'z',
+        'и' => 'i',   'й' => 'y',   'к' => 'k',
+        'л' => 'l',   'м' => 'm',   'н' => 'n',
+        'о' => 'o',   'п' => 'p',   'р' => 'r',
+        'с' => 's',   'т' => 't',   'у' => 'u',
+        'ф' => 'f',   'х' => 'h',   'ц' => 'c',
+        'ч' => 'ch',  'ш' => 'sh',  'щ' => 'sch',
+        'ь' => "'",  'ы' => 'y',   'ъ' => "'",
+        'э' => 'e',   'ю' => 'yu',  'я' => 'ya',
+
+        'А' => 'A',   'Б' => 'B',   'В' => 'V',
+        'Г' => 'G',   'Д' => 'D',   'Е' => 'E',
+        'Ё' => 'E',   'Ж' => 'Zh',  'З' => 'Z',
+        'И' => 'I',   'Й' => 'Y',   'К' => 'K',
+        'Л' => 'L',   'М' => 'M',   'Н' => 'N',
+        'О' => 'O',   'П' => 'P',   'Р' => 'R',
+        'С' => 'S',   'Т' => 'T',   'У' => 'U',
+        'Ф' => 'F',   'Х' => 'H',   'Ц' => 'C',
+        'Ч' => 'Ch',  'Ш' => 'Sh',  'Щ' => 'Sch',
+        'Ь' => "'",  'Ы' => 'Y',   'Ъ' => "'",
+        'Э' => 'E',   'Ю' => 'Yu',  'Я' => 'Ya',
+    );
     return strtr($str, $converter);
 */
 }
 
 function translit2URL($str) { //--------------------------------------------
 
-    $converter = array(  
-		'а' => 'a',		'б' => 'b',		'в' => 'v',  
-		'г' => 'g',		'д' => 'd',		'е' => 'e',  
-		'ё' => 'yo',	'ж' => 'zh',	'з' => 'z',  
+    $converter = array(
+		'а' => 'a',		'б' => 'b',		'в' => 'v',
+		'г' => 'g',		'д' => 'd',		'е' => 'e',
+		'ё' => 'yo',	'ж' => 'zh',	'з' => 'z',
 		'и' => 'i',		'й' => 'j',		'к' => 'k',
-		'л' => 'l',		'м' => 'm',		'н' => 'n',  
-		'о' => 'o',		'п' => 'p',		'р' => 'r',  
-		'с' => 's',		'т' => 't',		'у' => 'u',  
-		'ф' => 'f',		'х' => 'h',		'ц' => 'c',  
-		'ч' => 'ch',	'ш' => 'sh',	'щ' => 'shh',  
-		'ь' => '',		'ы' => 'y',		'ъ' => '',  
-		'э' => 'e',		'ю' => 'yu',	'я' => 'ya',  
+		'л' => 'l',		'м' => 'm',		'н' => 'n',
+		'о' => 'o',		'п' => 'p',		'р' => 'r',
+		'с' => 's',		'т' => 't',		'у' => 'u',
+		'ф' => 'f',		'х' => 'h',		'ц' => 'c',
+		'ч' => 'ch',	'ш' => 'sh',	'щ' => 'shh',
+		'ь' => '',		'ы' => 'y',		'ъ' => '',
+		'э' => 'e',		'ю' => 'yu',	'я' => 'ya',
 
-/*		'А' => 'a',		'Б' => 'b',		'В' => 'v',  
-		'Г' => 'g',		'Д' => 'd',		'Е' => 'e',  
-		'Ё' => 'e',		'Ж' => 'zh',	'З' => 'z',  
-		'И' => 'i',		'Й' => 'y',		'К' => 'k',  
-		'Л' => 'l',		'М' => 'm',		'Н' => 'n',  
-		'О' => 'o',		'П' => 'p',		'Р' => 'r',  
-		'С' => 's',		'Т' => 't',		'У' => 'u',  
-		'Ф' => 'f',		'Х' => 'h',		'Ц' => 'c',  
-		'Ч' => 'ch',	'Ш' => 'sh',	'Щ' => 'sch',  
-		'Ь' => '',		'Ы' => 'y',		'Ъ' => '',  
+/*		'А' => 'a',		'Б' => 'b',		'В' => 'v',
+		'Г' => 'g',		'Д' => 'd',		'Е' => 'e',
+		'Ё' => 'e',		'Ж' => 'zh',	'З' => 'z',
+		'И' => 'i',		'Й' => 'y',		'К' => 'k',
+		'Л' => 'l',		'М' => 'm',		'Н' => 'n',
+		'О' => 'o',		'П' => 'p',		'Р' => 'r',
+		'С' => 's',		'Т' => 't',		'У' => 'u',
+		'Ф' => 'f',		'Х' => 'h',		'Ц' => 'c',
+		'Ч' => 'ch',	'Ш' => 'sh',	'Щ' => 'sch',
+		'Ь' => '',		'Ы' => 'y',		'Ъ' => '',
 		'Э' => 'e',		'Ю' => 'yu',	'Я' => 'ya',
 */
 		' '=> '-',		'.'=> '',		'/'=> '_',
@@ -647,12 +650,12 @@ function translit2URL($str) { //--------------------------------------------
 		"«"=> ''
     );
     return strtr(mb_strtolower(trim($str), 'UTF-8'), $converter);
-/*    $output = str_replace( 
-        array_keys($table), 
-        array_values($table),$str 
-    ); 
+/*    $output = str_replace(
+        array_keys($table),
+        array_values($table),$str
+    );
 
-    return $output; 
+    return $output;
 */
 }
 
@@ -1037,15 +1040,15 @@ function substr_word($str, $min_len, $max_len) {
   return substr($str, 0, $break) . '...';
 }
 
-function substrByWord($text, $symbols = 100) { 
-	$symbols = (int)$symbols; 
+function substrByWord($text, $symbols = 100) {
+	$symbols = (int)$symbols;
 
-	if (strlen( $text) <= $symbols) 
-		return $text; 
+	if (strlen( $text) <= $symbols)
+		return $text;
 
-	$pos = strpos($text, ' ', $symbols); 
-	return substr($text, 0, (int)$pos).'...'; 
-} 
+	$pos = strpos($text, ' ', $symbols);
+	return substr($text, 0, (int)$pos).'...';
+}
 //----------------------------------------------------------------------------
 // Выдача зависимого от врмени уникального значения
 function getmicrotime() {
@@ -1085,7 +1088,7 @@ function php2js($a) {
 		foreach ($a as $v) $result[] = php2js($v);
 		return '[' . join(', ', $result) . ']';
 	} else {
-		foreach ($a as $k=>$v) 
+		foreach ($a as $k=>$v)
 			$result[] = php2js($k) . ':' . php2js($v);
 		return '{' . join(', ', $result) . '}';
 	}
@@ -1171,7 +1174,7 @@ function paginator($page=1, $cfg=NULL) { //-------------------------------------
 			$output.= '<span class="'.$cfg['linkClass'].$cfg['linkDisabled'].'">'.$cfg['btnPrev'].'</span>';
 		}
 
-		// Pages	
+		// Pages
 		if ($lastpage < 3 + $cfg['advLinksX2']) {	// Not enough pages to breaking it up
 			for ($i = 1; $i <= $lastpage; $i++) {
 				if ($i == $page) {
@@ -1217,7 +1220,7 @@ function paginator($page=1, $cfg=NULL) { //-------------------------------------
 				}
 			}
 		}
-					
+
 		// Next
 		if ($page < $i - 1) {
 			$output.= '<a class="'.$cfg['linkClass'].'" href="'.$cfg['targetPage'].$next.'">'.$cfg['btnNext'].'</a>';

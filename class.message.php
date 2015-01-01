@@ -1,5 +1,6 @@
 <?
-/*	Class CSeagullMessage 0.0.4
+/*	Class CSeagullMessage 0.0.5
+	Update 0.0.5: 2014-11-09
 	Update 0.0.4: 2012-10-15
 	Update 0.0.3: 2012-09-19
 	Update 0.0.2: 2012-03-19
@@ -157,7 +158,7 @@ class CMessage {
 
 		if (count($this->arr_warning))
 			$response['warning'] = $this->arr_warning;
-		
+
 		if (count($this->arr_highlight))
 			$response['highlight'] = $this->arr_highlight;
 
@@ -175,7 +176,7 @@ class CMessage {
 			$output = $arr[0];
 		}
 		elseif ($c > 1) {
-			for ($i=0; $i<$arr; $i++) {
+			for ($i=0; $i<$c; $i++) {
 				$output .= '<li>'.$arr[$i].'</li>';
 			}
 			$output = '<ul>'.$output.'</ul>';

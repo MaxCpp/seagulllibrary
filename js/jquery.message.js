@@ -1,4 +1,5 @@
-/*	jQuery Message 0.0.10
+/*	jQuery Message 0.0.11
+	Update 0.0.11: 2014-11-29
 	Update 0.0.10: 2014-05-03
 	Update 0.0.9: 2014-01-07
 	Update 0.0.8: 2013-10-01
@@ -34,17 +35,17 @@ var msg = {
 
 				case 'ok':
 					this.show(data.ok, 'ok', msgObj);
-	/*				if (data.reload!==undefined) {
-						if (data.reload===true) {
-							$('#js-msgbox'+prefix).before('<div id="ui-background" class="ui-widget-overlay" style="z-index:'+$('#js-msgbox'+prefix).css('z-index')+'"><div>Перезагрузка страницы...</div></div>');
-							setTimeout('location.replace("")', 800);
-						}
-						else if (typeof(data.reload)==='string') {
-							$('#js-msgbox'+prefix).before('<div id="ui-background" class="ui-widget-overlay" style="z-index:'+$('#js-msgbox'+prefix).css('z-index')+'"><div>Перезагрузка страницы...</div></div>');
-							setTimeout('location.replace("'+data.reload+'")', 800);
-						}
-					}
-	*/
+					// if (data.reload!==undefined) {
+					// 	if (data.reload===true) {
+					// 		$('#js-msgbox'+msgObj).before('<div id="ui-background" class="ui-widget-overlay" style="z-index:'+$('#js-msgbox'+msgObj).css('z-index')+'"><div>Перезагрузка страницы...</div></div>');
+					// 		setTimeout('location.replace("")', 800);
+					// 	}
+					// 	else if (typeof(data.reload)==='string') {
+					// 		$('#js-msgbox'+msgObj).before('<div id="ui-background" class="ui-widget-overlay" style="z-index:'+$('#js-msgbox'+msgObj).css('z-index')+'"><div>Перезагрузка страницы...</div></div>');
+					// 		setTimeout('location.replace("'+data.reload+'")', 800);
+					// 	}
+					// }
+
 				break;
 
 				case 'info':
@@ -123,7 +124,7 @@ var msg = {
 				}
 			}
 			else if (type === 'info') {
-				renderMsg(msgObj, h, this.speed);
+				this.renderMsg(msgObj, h, this.speed);
 
 				if (this.auto_hide === true) {
 					msgObj.oneTime("5s", 'msgTimer', function() {
