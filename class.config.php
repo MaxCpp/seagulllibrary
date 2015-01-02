@@ -1,5 +1,6 @@
 <?
-/*	Class CConfig 0.0.12
+/*	Class CConfig 0.0.13
+	Update 0.0.13: 2015-01-03
 	Update 0.0.12: 2014-04-24
 	Update 0.0.11: 2013-10-02
 	Update 0.0.10: 2013-02-23
@@ -17,20 +18,21 @@
 		$this->config->setVariable('text', 'richard_kb@mail.ru', $this->nameModule, NULL, 'T', 'Текст');
 		$this->config->setVariable('password', 'фыв', $this->nameModule, NULL, 'P', 'Пароль');
 		$view_default = array(
-			array('name'=>'images','title'=>'Большие изображения','val'=>'1'),
-			array('name'=>'thumbs','title'=>'Миниатюры','val'=>'0'),
-			array('name'=>'image_and_thumbs','title'=>'Большое изображение и миниатюры','val'=>'0')
+			array('name'=>'images','title'=>'Большие изображения','selected'=>'1','value'=>''),
+			array('name'=>'thumbs','title'=>'Миниатюры','selected'=>'0','value'=>''),
+			array('name'=>'image_and_thumbs','title'=>'Большое изображение и миниатюры','selected'=>'0','value'=>'')
 		);
 		$this->config->setVariable('select', $view_default, $this->nameModule, NULL, 'S', 'Список');
 		$view_default = array(
-			array('name'=>'images','title'=>'Большие изображения','val'=>'0'),
-			array('name'=>'thumbs','title'=>'Миниатюры','val'=>'1'),
-			array('name'=>'image_and_thumbs','title'=>'Большое изображение и миниатюры','val'=>'0')
+			array('name'=>'images','title'=>'Большие изображения','selected'=>'0','value'=>''),
+			array('name'=>'thumbs','title'=>'Миниатюры','selected'=>'1','value'=>''),
+			array('name'=>'image_and_thumbs','title'=>'Большое изображение и миниатюры','selected'=>'0','value'=>'')
 		);
 		$this->config->setVariable('radio', $view_default, $this->nameModule, NULL, 'R', 'Переключатели');
 		$this->config->setVariable('checkbox', 1, $this->nameModule, NULL, 'C', 'Флажок');
 		$this->config->setVariable('textarea', 'Тег <input> является одним из разносторонних элементов формы и позволяет создавать разные элементы интерфейса и обеспечить взаимодействие с пользователем.', $this->nameModule, NULL, 'TA', 'Многострочный текст');
 
+	TODO: сделать возможность редактирования переменных в продолжение addVariable.
 */
 require_once(SITE_ROOT.'/assets/modules/seagulllibrary/class.edittable.php');
 
@@ -103,7 +105,7 @@ class CConfig {
 							$var['value'] = json_decode($var['value'], true);
 							if ($var['value'])
 								foreach ($var['value'] as $optio) {
-									if (($optio['val'] == '1'))
+									if (($optio['selected'] == '1'))
 										$arr[$var['name']] = $optio['name'];
 								}
 						}
@@ -116,7 +118,7 @@ class CConfig {
 								$arr[$var['name']] = $var['value'];
 //								$arr[$var['name']] = htmlspecialchars($var['value']);
 							else
-								echo 'Ошибка: пустое имя в поле "name" таблицы "seagull_gonfig"';
+								echo 'Ошибка: пустое имя в поле "name" таблицы "seagull_config"';
 						}
 					}
 					else {
@@ -124,7 +126,7 @@ class CConfig {
 							$var['value'] = json_decode($var['value'], true);
 							if ($var['value'])
 								foreach ($var['value'] as $optio) {
-									if (($optio['val'] == '1'))
+									if (($optio['selected'] == '1'))
 										$this->{$var['name']} = $optio['name'];
 								}
 						}
@@ -193,7 +195,7 @@ class CConfig {
 						$class = empty($var['classField']) ? '' : 'class="'.$var['classField'].'"';
 						$var['value'] = json_decode($var['value'], true);
 						foreach ($var['value'] as $optio) {
-							$field .= '<label><input '.$class.' type="radio" name="config['.$var['id'].']" value="'.$optio['name'].'" '.(($optio['val'] == '1') ? 'checked="checked"':'').' />'.$optio['title'].'</label><br />';
+							$field .= '<label><input '.$class.' type="radio" name="config['.$var['id'].']" value="'.$optio['name'].'" '.(($optio['selected'] == '1') ? 'checked="checked"':'').' />'.$optio['title'].'</label><br />';
 						}
 						$field = '<span '.$this->labelParam.'>'.$var['title'].'</span><span style="display:inline-block">'.$field.'</span>'.$info;
 					break;
@@ -203,7 +205,7 @@ class CConfig {
 						$var['value'] = json_decode($var['value'], true);
 						if ($var['value'])
 							foreach ($var['value'] as $optio) {
-								$field .= '<option value="'.$optio['name'].'" '.(($optio['val'] == '1') ? 'selected="selected"':'').'>'.$optio['title'].'</option>';
+								$field .= '<option value="'.$optio['name'].'" '.(($optio['selected'] == '1') ? 'selected="selected"':'').'>'.$optio['title'].'</option>';
 							}
 						else $this->msg->setError('Пустое поле "value" в таблице "config"');
 						$field = '<span '.$this->labelParam.'>'.$var['title'].'</span><select '.$class.$widthField.' id="ff-config-id'.$var['id'].'" name="config['.$var['id'].']">'.$field.'</select>'.$info;
@@ -239,6 +241,78 @@ class CConfig {
 		return $output;
 	}
 
+	function renderVariable($name, $view=NULL, $module=NULL) { //---------------------------------------
+		// TODO: ситуация когда переменная с одним и тем же именем присутствует в разных fieldset
+		// TODO: у чекбокса тоже нужно сделать значения на состояния 1 и 0
+		if (is_null($name)) {
+			return 'Ошибка: не указано имя переменной в вызове снипета';
+		}
+		else {
+			$where = '`name`=\''.$name.'\'';
+		}
+
+		$view = is_null($view) ? 'value' : $view;
+		$where .= isset($module) ? ' AND `module`=\''.$module.'\'' : ' AND `module`=\'seagullconfig\'';
+
+		$aVars = sql2table('SELECT `id`, `title`, `name`, `value`, `type`, `widthField`, `classField`, `info`, `advElement` FROM '.$this->tables['config']->table.' WHERE '.$where.' AND `fieldset`'.(isset($fieldset) ? '='.$fieldset : ' IS NULL'));
+
+		$cv = count($aVars);
+		if ($cv) {
+			$output = '';
+
+			for ($i=0; $i<$cv; $i++) {
+				$field = '';
+				$var = &$aVars[$i];
+
+				$widthField = empty($var['widthField']) ? '' : ' style="width:'.$var['widthField'].'"';
+				$info = empty($var['advElement']) ? '' : $var['advElement'];
+				$info = empty($var['info']) ? $info : $info.'<span class="b-info"><span class="b-info__text">'.$var['info'].'</span></span>';
+				$var['title'] = htmlentities($var['title'], ENT_NOQUOTES, "UTF-8");
+
+				switch ($var['type']) {
+					case 'FIELDSET':
+					// Вроде обрабатывать никак не нужно
+					break;
+
+					case 'T':
+					case 'N':
+					case 'TA':
+					case 'P':
+					case 'F':
+					case 'C':
+						if ($view == 'value') {
+							$output = htmlspecialchars($var['value']);
+						}
+						else {
+							$output = $var[$view];
+						}
+					break;
+
+					case 'R':
+						$var['value'] = json_decode($var['value'], true);
+						foreach ($var['value'] as $optio) {
+							if ($optio['selected'] == '1') {
+								$output = $optio[$view];
+							}
+						}
+					break;
+
+					case 'S':
+// TODO: случай когда выделено несколько пунктов
+						$var['value'] = json_decode($var['value'], true);
+						foreach ($var['value'] as $optio) {
+							if ($optio['selected'] == '1') {
+								$output = $optio[$view];
+							}
+						}
+					break;
+				}
+			}
+		}
+
+		return $output;
+	}
+
 	function saveForm($aData, $module=NULL) { //---------------------------------------
 
 		if (isset($module))
@@ -256,9 +330,9 @@ class CConfig {
 					$c = count($obj);
 					for ($i=0; $i<$c; $i++) {
 						if ($obj[$i]['name']==$aData[$key])
-							$obj[$i]['val'] = 1;
+							$obj[$i]['selected'] = 1;
 						else
-							$obj[$i]['val'] = 0;
+							$obj[$i]['selected'] = 0;
 					}
 					$r = $this->setVariable($key, $obj, NULL, NULL, 'R');
 				break;
@@ -268,9 +342,9 @@ class CConfig {
 					$c = count($obj);
 					for ($i=0; $i<$c; $i++) {
 						if ($obj[$i]['name']==$aData[$key])
-							$obj[$i]['val'] = 1;
+							$obj[$i]['selected'] = 1;
 						else
-							$obj[$i]['val'] = 0;
+							$obj[$i]['selected'] = 0;
 					}
 					$r = $this->setVariable($key, $obj, NULL, NULL, 'S');
 				break;
@@ -314,7 +388,7 @@ class CConfig {
 				return 2;
 		}
 		else {
-//			Условия для поиска принадлежности переменной module и fieldset
+			// Условия для поиска принадлежности переменной module и fieldset
 			$where = isset($module) ? ' AND `module`=\''.$module.'\'' : '';
 			if (isset($fieldset) and $fieldset !== 'NULL') {
 				$fsID = is_numeric($fieldset) ? $fieldset : $this->getFieldsetID($fieldset, $module);
@@ -323,7 +397,7 @@ class CConfig {
 			else
 				$where .= ' AND `fieldset` IS NULL';
 
-//			echo 'SELECT `id` FROM '.$this->tables['config']->table." WHERE `name`='".$name."'".$where.'<br>';
+			// echo 'SELECT `id` FROM '.$this->tables['config']->table." WHERE `name`='".$name."'".$where.'<br>';
 			if ($varID = retr_sql('SELECT `id` FROM '.$this->tables['config']->table." WHERE `name`='".$name."'".$where)) {
 				$set = isset($type) ? ', `type`=\''.$type.'\'' : '';
 				$set .= isset($title) ? ', `title`=\''.$title.'\'' : '';
@@ -331,7 +405,7 @@ class CConfig {
 				$set .= isset($width) ? ', `widthField`=\''.$width.'\'' : '';
 				$set .= isset($class) ? ', `classField`=\''.$class.'\'' : '';
 				$set .= isset($advElement) ? ', `advElement`=\''.$advElement.'\'' : '';
-//				echo 'UPDATE '.$this->tables['config']->table.' SET `value`='.$value.$set.' WHERE `id`='.$varID.'<br><br>';
+				// echo 'UPDATE '.$this->tables['config']->table.' SET `value`='.$value.$set.' WHERE `id`='.$varID.'<br><br>';
 				$r = run_sql('UPDATE '.$this->tables['config']->table.' SET `value`='.$value.$set.' WHERE `id`='.$varID);
 				if ($r)
 					return 2;
@@ -342,7 +416,7 @@ class CConfig {
 				$width = isset($width) ? '\''.$width.'\'' : 'NULL';
 				$class = isset($class) ? '\''.$class.'\'' : 'NULL';
 				$advElement = isset($advElement) ? '\''.$advElement.'\'' : 'NULL';
-//				echo 'REPLACE INTO '.$this->tables['config']->table.' (`fieldset`, `title`, `name`, `value`, `type`, `module`, `widthField`, `info`) VALUES ('.$fsID.', \''.$title."', '".$name."', ".$value.", '".$type."', '".$module."', ".$width.', '.$info.')'.'<br><br>';
+				// echo 'REPLACE INTO '.$this->tables['config']->table.' (`fieldset`, `title`, `name`, `value`, `type`, `module`, `widthField`, `info`) VALUES ('.$fsID.', \''.$title."', '".$name."', ".$value.", '".$type."', '".$module."', ".$width.', '.$info.')'.'<br><br>';
 				$r = run_sql('REPLACE INTO '.$this->tables['config']->table.' (`fieldset`, `title`, `name`, `value`, `type`, `module`, `classField`, `widthField`, `info`, `advElement`) VALUES ('.$fsID.', \''.$title."', '".$name."', ".$value.", '".$type."', '".$module."', ".$class.', '.$width.', '.$info.', '.$advElement.')');
 				if ($r)
 					return 1;
@@ -387,10 +461,10 @@ class CConfig {
 
 				$item['title'] = $arr_option[0];
 				$item['name'] = $arr_option[1];
-				$item['val'] = $arr_option[2];
+				$item['value'] = $arr_option[2];
+				$item['selected'] = $arr_option[3];
 				$data['value'][] = $item;
 			}
-//				ea($data['value']);
 		}
 
 		if (empty($data['title'])) {
@@ -420,9 +494,9 @@ class CConfig {
 
 		if (!$this->msg->keep) {
 			switch ($this->setVariable($data['name'], $data['value'], $data['namemodule'], $data['fieldset'], $data['type'], $data['title'])) {
-				case 1: $this->msg->setOk('Переменная добавлена'); break;
-				case 2: $this->msg->setInfo('Переменная обновлена'); break;
-				case 0: $this->msg->setError('Ошибка при сохранении'); break;
+				case 1: $this->msg->setOk('Переменная добавлена'); return 1; break;
+				case 2: $this->msg->setInfo('Переменная обновлена'); return 2; break;
+				case 0: $this->msg->setError('Ошибка при сохранении'); return 0; break;
 			}
 		}
 	}
