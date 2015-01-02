@@ -23,7 +23,7 @@
 }
 .msg_fixed {
 	position: fixed;
-	
+
 }
 .msg__text {
 	background-repeat: no-repeat;
@@ -40,8 +40,8 @@
 	border-color: #DF8F8F;
 }
 .msg_ok {
-	background-color: #D5FFCE;
-	border-color: #9ADF8F;
+	background-color: #D3EFCE;
+	border-color: #B1D3AB;
 }
 .msg_info {
 	background-color: #DBE3FF;
