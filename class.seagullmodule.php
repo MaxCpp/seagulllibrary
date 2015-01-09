@@ -1,6 +1,8 @@
 <?php
 /*
-	Class CSeagullModule 0.0.3
+	Class CSeagullModule 0.0.4
+	Update 0.0.4: 2015-01-10
+	 - $this::$nameModule в $this::nameModule
 	Update 0.0.3: 2013-01-26
 	Update 0.0.2: 2012-11-22
 */
@@ -38,7 +40,7 @@ class CSeagullModule {
 	function del($id) { //------------------------------------------------------
 
 		if (isset($id)) {
-			$r = run_sql("DELETE ".$this->tables[($this->nameModule ? $this->nameModule : $this::$nameModule)]." WHERE `id`=".$id);
+			$r = run_sql("DELETE ".$this->tables[($this->nameModule ? $this->nameModule : $this::nameModule)]." WHERE `id`=".$id);
 			if ($r)
 				return 1;
 			else
@@ -69,7 +71,7 @@ class CSeagullModule {
 			$template = $this->file_get_contents(substr($tpl, 6));
 		}*/
 		else {
-			$tpl = SITE_ROOT.'/assets/modules/'.($this->nameModule ? $this->nameModule : $this::$nameModule).'/templates/'.$tpl.'.html';
+			$tpl = SITE_ROOT.'/assets/modules/'.($this->nameModule ? $this->nameModule : $this::nameModule).'/templates/'.$tpl.'.html';
 			if (file_exists($tpl)) {
 				$template = file_get_contents($tpl);
 			}
@@ -80,7 +82,8 @@ class CSeagullModule {
 	function parseTemplate($tpl, $values = array(), $arrTpl = array()) { //--------------------------------
 		$arrTpl = array('css', 'js', 'addvariable');
 
-		$file = SITE_ROOT.'/assets/modules/'.($this->nameModule ? $this->nameModule : $this::$nameModule).'/templates/'.$tpl.'.html';
+		$file = SITE_ROOT.'/assets/modules/'.($this->nameModule ? $this->nameModule : $this::nameModule).'/templates/'.$tpl.'.html';
+
 		if (file_exists($file)) {
 			$tpl = file_get_contents($file);
 

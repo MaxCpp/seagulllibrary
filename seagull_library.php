@@ -13,7 +13,7 @@
 //date_default_timezone_get();
 //date_default_timezone_set('Asia/Vladivostok');
 define('MYSQL_ERROR_SHOW', true);
-define('MYSQL_ERROR_LOG', true);
+define('MYSQL_ERROR_LOG', false);
 define('CLEAR_FILES', 1);
 define('CLEAR_DIR', 2);
 define('CLEAR_ALL', 3);
