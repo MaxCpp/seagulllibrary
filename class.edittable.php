@@ -1,6 +1,7 @@
 <?php
 /*
-	Class CEditTable 0.0.25
+	Class CEditTable 0.0.26
+	Update 0.0.26: 2015-03-21
 	Update 0.0.25: 2014-04-27
 	Update 0.0.24: 2013-10-06
 	Update 0.0.23: 2013-09-26
@@ -613,6 +614,7 @@ array (
 //			if (array_key_exists($col, $this->columns) and !$this->columns[$col]['form_dontEdit']) {
 			switch ($column['form_fieldType']) {
 				case 'area':
+				case 'time':
 					$value = empty($value) ? 'NULL' : '\''.$value.'\'';
 				break;
 
@@ -693,6 +695,7 @@ array (
 					switch ($column['form_fieldType']) {
 						case 'area':
 						case 'number':
+						case 'time':
 							$value = empty($value) ? 'NULL' : '\''.$value.'\'';
 						break;
 
@@ -759,6 +762,7 @@ array (
 				switch ($column['form_fieldType']) {
 					case 'area':
 					case 'number':
+					case 'time':
 						$value = empty($value) ? 'NULL' : '\''.$value.'\'';
 					break;
 

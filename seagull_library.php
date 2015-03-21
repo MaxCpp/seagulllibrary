@@ -69,7 +69,7 @@ function sql2table ($sql_query) { //--------------------------------------------
 	$query_table = array();
 
 	if ($query_result) {
-		if (mysql_numrows($query_result) > 0) {
+		if (mysql_num_rows($query_result) > 0) {
 			while ($query_row = mysql_fetch_array($query_result, MYSQL_ASSOC)) {
 				$query_table[] = $query_row;
 			}
@@ -87,7 +87,7 @@ function sql2array ($sql_query, $key='id', $value=NULL) { //--------------------
 	$query_result = run_sql($sql_query);
 	$query_table = array();
 
-	if ($query_result and mysql_numrows($query_result) > 0) {
+	if ($query_result and mysql_num_rows($query_result) > 0) {
 		if (isset($value)) {
 			while ($query_row = mysql_fetch_array($query_result, MYSQL_ASSOC)) {
 				$query_table[$query_row[$key]] = $query_row[$value];
@@ -113,7 +113,7 @@ function sql2list ($sql_query, $key='name', $value='value') { //----------------
 	$query_result = run_sql($sql_query, $sql_connect);
 	$query_table = array();
 
-	if (mysql_numrows($query_result) > 0) {
+	if (mysql_num_rows($query_result) > 0) {
 		while ($query_row = mysql_fetch_array($query_result, MYSQL_ASSOC)) {
 			$temp_id = $query_row[$key];
 			$query_table[$temp_id] = $query_row[$value];
@@ -827,10 +827,10 @@ function date2int($str) {
 	if ($str) {
 		$mas = explode('.', $str);
 		$date = mktime(0, 0, 0, $mas[1], $mas[0], $mas[2]);
-		$date += (int)substr(date('O', $date),0,3)*3600;
+		// $date += (int)substr(date('O', $date),0,3)*3600;
 	}
 	else
-		$date = mktime();
+		$date = time();
 
 	return($date);
 }
@@ -843,7 +843,7 @@ function datetime2int($str, $delimiter='.') {
 		$date = mktime( $time[0], $time[1], 0, $date[1], $date[0], $date[2]);
 	}
 	else
-		$date = mktime();
+		$date = time();
 
 	return($date);
 }
