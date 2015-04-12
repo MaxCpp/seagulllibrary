@@ -6,12 +6,12 @@
 class CCountry {
 
 	function __construct() { //---------------------------------------------
-		$this->table = '`seagull_countries`';
-		$this->tablename = 'seagull_countries';
+		$this->tablename = $GLOBALS['table_prefix'].'seagull_countries';
+		$this->table = '`'.$this->tablename.'`';
 	}
 
 	function get_name($id, $lang='ru') { //---------------------------------------------
-		
+
 		$name = retr_sql('SELECT `name_'.$lang.'` FROM '.$this->table.' WHERE `id`='.$id);
 
 		if ($name)
@@ -23,7 +23,7 @@ class CCountry {
 	function getCountriesHTML($lang='ru', $select=NULL) { //---------------------------------------------
 
 		$arr = sql2table('SELECT * FROM '.$this->table.' ORDER BY `name_'.$lang.'`');
-		
+
 		$html = '<option value="0">------</option>';
 		foreach ($arr as $country) {
 			if ($country['id'] == $select)
@@ -48,7 +48,7 @@ class CCountry {
 		else
 			return 0;
 	}
-	
+
 	function install() {
 		global $dbase;
 

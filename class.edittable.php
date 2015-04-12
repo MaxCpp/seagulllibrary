@@ -38,10 +38,10 @@ class CEditTable {
 	var $table_columns_count;
 
 	function __construct($tablename, $columns) { //------------------------------------------------------
-		$this->tablename = $tablename;
-		$this->table = '`'.$tablename.'`';
-		$this->tablename_i18n = $tablename.'_i18n';
-		$this->table_i18n = '`'.$tablename.'_i18n`';
+		$this->tablename = $GLOBALS['table_prefix'].$tablename;
+		$this->table = '`'.$this->tablename.'`';
+		$this->tablename_i18n = $this->tablename.'_i18n';
+		$this->table_i18n = '`'.$this->tablename.'_i18n`';
 		$this->columns = $columns;
 		$this->table_param = 'class="b-table" cellpadding="0" cellspacing="0"';
 		$this->sort_col = 'id';
