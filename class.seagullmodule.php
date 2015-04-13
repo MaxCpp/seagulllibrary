@@ -21,7 +21,7 @@ class CSeagullModule {
 	var $tables = array();
 
 	function renderPaginator($page=NULL) { //------------------------------------------------------
-		$output = '<div class="b-paginator">';
+		$output = '<div class="paginator">';
 		$output .= $this->renderPaginatorLinks($page);
 		$output .= '</div>';
 
@@ -34,7 +34,7 @@ class CSeagullModule {
 		$cfg['advLinks'] = $this->config->paginatorFrontend->advLinks;
 		$output = paginator($page, $cfg);
 
-		return '<span class="b-paginator-loading" style="display:none">Загрузка...</span>'.$output;
+		return '<span class="paginator-loading" style="display:none">Загрузка...</span>'.$output;
 	}
 
 	function del($id) { //------------------------------------------------------

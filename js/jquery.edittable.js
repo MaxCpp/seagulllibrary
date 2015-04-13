@@ -41,8 +41,8 @@ $(document).ready(function() {
 	}, 'td.nowrap');
 
 //	Постраничная навигация
-	$(document).on('click', 'a.b-paginator-link', function() {
-		if (!$(this).hasClass('b-paginator-link_disabled')) {
+	$(document).on('click', 'a.paginator-link', function() {
+		if (!$(this).hasClass('paginator-link_disabled')) {
 			var page = $(this).attr('href').replace('#page', '');
 
 			var param = $(this).parent('div').attr('id');
@@ -52,7 +52,7 @@ $(document).ready(function() {
 			$.ajax({ type:'POST', url:ajaxurl, dataType:'json',
 				data: {cmd:'getPaginatorPage', pageID:page, param:param},
 				beforeSend: function() {
-					$('span.b-paginator-loading').show();
+					$('span.paginator-loading').show();
 				},
 				success: function(data) {
 					if (data.error)
@@ -60,7 +60,7 @@ $(document).ready(function() {
 
 //					param = param ? '-'+param : '';
 					$('table.tpaginator').children('tbody').html(data.tbody);
-					$('div.b-paginator').html(data.links);
+					$('div.paginator').html(data.links);
 				},
 				error: function(data) {
 					msg.show('Ошибка при отправке запроса', 'error');
