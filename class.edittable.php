@@ -574,7 +574,7 @@ array (
 	}
 
 	function renderPaginator($page=NULL, $cfg=NULL) { //------------------------------------------------
-		$output = '<div '.(isset($cfg['param']) ? ' id="paginator-'.$cfg['param'].'"' : '').' class="b-paginator">';
+		$output = '<div '.(isset($cfg['param']) ? ' id="paginator-'.$cfg['param'].'"' : '').' class="paginator">';
 		$output .= $this->renderPaginatorLinks($page, $cfg);
 		$output .= '</div>';
 
@@ -588,7 +588,7 @@ array (
 //ea($cfg);
 		$output = paginator($page, $cfg);
 
-		return '<span class="b-paginator-loading" style="display:none">Загрузка...</span>'.$output;
+		return '<span class="paginator-loading" style="display:none">Загрузка...</span>'.$output;
 	}
 
 	function saveForm($id=NULL, $aData=NULL) { //-------------------------------------------------------
