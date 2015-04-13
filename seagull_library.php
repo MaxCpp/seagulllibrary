@@ -1,6 +1,7 @@
 <?php
-/*	Seagull Library 0.0.9
-	Update 0.0.9: 2015-11-20
+/*	Seagull Library 0.0.10
+	Update 0.0.10: 2015-04-13
+	Update 0.0.9: 2014-11-20
 	Update 0.0.8: 2013-10-01
 	Update 0.0.7: 2013-10-01
 	Update 0.0.6: 2013-10-01
@@ -1147,9 +1148,9 @@ function paginator($page=1, $cfg=NULL) { //-------------------------------------
 	if (is_null($cfg['tableName'])) $cfg['tableName'] = 'seagull_reviews';
 	if (is_null($cfg['targetPage'])) $cfg['targetPage'] = '#page';
 	if (is_null($cfg['limit'])) $cfg['limit'] = 10;
-	if (is_null($cfg['linkClass'])) $cfg['linkClass'] = 'b-paginator-link';
-	if (is_null($cfg['linkDisabled'])) $cfg['linkDisabled'] = ' b-paginator-link_disabled';
-	if (is_null($cfg['linkActive'])) $cfg['linkActive'] = ' b-paginator-link_active';
+	if (is_null($cfg['linkClass'])) $cfg['linkClass'] = 'paginator-link';
+	if (is_null($cfg['linkDisabled'])) $cfg['linkDisabled'] = ' paginator-link_disabled';
+	if (is_null($cfg['linkActive'])) $cfg['linkActive'] = ' paginator-link_active';
 	if (is_null($cfg['query']))
 		if (isset($cfg['tableName']))
 			$cfg['query'] = 'SELECT COUNT(*) FROM `'.$cfg['tableName'].'`';
